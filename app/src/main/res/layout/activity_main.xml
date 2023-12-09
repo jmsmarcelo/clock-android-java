@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="15dp"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:id="@+id/analogClock"
+        android:layout_width="380dp"
+        android:layout_height="380dp"
+        android:layout_gravity="center_horizontal"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="20dp">
+
+        <ImageView
+            android:id="@+id/ivAnalog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/analog_bg" />
+
+        <ImageView
+            android:id="@+id/ivHour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/analog_hh" />
+
+        <ImageView
+            android:id="@+id/ivMinute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/analog_mm" />
+
+        <ImageView
+            android:id="@+id/ivSecond"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/analog_ss" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/digitalClock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/ivDigitalHH"
+            android:layout_width="70dp"
+            android:layout_height="140dp"
+            app:srcCompat="@drawable/digital_eight" />
+
+        <ImageView
+            android:id="@+id/ivDigitalH"
+            android:layout_width="70dp"
+            android:layout_height="140dp"
+            app:srcCompat="@drawable/digital_eight" />
+
+        <TextView
+            android:id="@+id/tvDigitalDot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:textColor="@color/black"
+            android:textSize="90dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivDigitalMM"
+            android:layout_width="70dp"
+            android:layout_height="140dp"
+            app:srcCompat="@drawable/digital_eight" />
+
+        <ImageView
+            android:id="@+id/ivDigitalM"
+            android:layout_width="70dp"
+            android:layout_height="140dp"
+            app:srcCompat="@drawable/digital_eight" />
+
+        <ImageView
+            android:id="@+id/ivDigitalSS"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="53dp"
+            app:srcCompat="@drawable/digital_eight" />
+
+        <ImageView
+            android:id="@+id/ivDigitalS"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="53dp"
+            app:srcCompat="@drawable/digital_eight" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSetClock"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="Set Clock"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+</LinearLayout>
