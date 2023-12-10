@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -28,9 +29,8 @@ public class MainActivity extends AppCompatActivity {
     int hh, mm, ss, oldSs;
     public static final String MY_PREFS_CONFIGS = "com.github.jmsmarcelo.clock.Configs";
     private SharedPreferences prefs;
-    private SharedPreferences.Editor prefsEditor;
     private String clockDefault;
-    int update = 999;
+    int update;
     boolean dotVisible = true;
     List<Integer> digitalNumbers;
 
@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
         prefs = getSharedPreferences(MY_PREFS_CONFIGS, MODE_PRIVATE);
         clockDefault = prefs.getString("clock", "analog");
-        prefsEditor = prefs.edit();
 
         analogClock = findViewById(R.id.analogClock);
         digitalClock = findViewById(R.id.digitalClock);
@@ -84,34 +83,33 @@ public class MainActivity extends AppCompatActivity {
             digitalClock.setVisibility(View.VISIBLE);
         }
 
-        btnSetClock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(clockDefault.equals("analog")) {
-                    btnSetClock.setText("Get Analog Clock");
-                    clockDefault = "digital";
+        btnSetClock.setOnClickListener(v -> {
+            if(clockDefault.equals("analog")) {
+                btnSetClock.setText("Get Analog Clock");
+                clockDefault = "digital";
 
-                    analogClock.setVisibility(View.GONE);
-                    digitalClock.setVisibility(View.VISIBLE);
+                analogClock.setVisibility(View.GONE);
+                digitalClock.setVisibility(View.VISIBLE);
 
-                    update = 499;
+                update = 500;
+            } else {
+                btnSetClock.setText("Get Digital Clock");
+                clockDefault = "analog";
 
-                    prefsEditor.putString("clock", clockDefault);
-                    prefsEditor.commit();
-                } else {
-                    btnSetClock.setText("Get Digital Clock");
-                    clockDefault = "analog";
+                analogClock.setVisibility(View.VISIBLE);
+                digitalClock.setVisibility(View.GONE);
 
-                    analogClock.setVisibility(View.VISIBLE);
-                    digitalClock.setVisibility(View.GONE);
-
-                    update = 999;
-
-                    prefsEditor.putString("clock", clockDefault);
-                    prefsEditor.commit();
-                }
+                update = 1000;
             }
+            SharedPreferences.Editor prefsEditor = prefs.edit();
+            prefsEditor.putString("clock", clockDefault);
+            prefsEditor.commit();
         });
+
+        if(clockDefault.equals("analog"))
+            update = 1000;
+        else
+            update = 500;
 
         startClockUpdate();
     }
@@ -121,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
     private Runnable updateClickRunnable = new Runnable() {
         @Override
         public void run() {
+            long realTime = SystemClock.elapsedRealtime();
             dateTime = LocalDateTime.now();
             hh = dateTime.getHour();
             mm = dateTime.getMinute();
@@ -133,8 +132,6 @@ public class MainActivity extends AppCompatActivity {
                 ivHour.setRotation((hh * 30) + (mm * 0.5F) + (ss * 0.0083333333333333F));
                 ivMinute.setRotation((mm * 6) + (ss *  0.1F));
                 ivSecond.setRotation(ss * 6);
-
-                update = 999;
             } else {
                 setDigital(ivDigitalHH, ivDigitalH, hh);
                 setDigital(ivDigitalMM, ivDigitalM, mm);
@@ -143,11 +140,10 @@ public class MainActivity extends AppCompatActivity {
                     tvDigitalDot.setVisibility(View.INVISIBLE);
                 else
                     tvDigitalDot.setVisibility(View.VISIBLE);
-
-                update = 499;
             }
 
-            handler.postDelayed(this, update);
+            realTime = SystemClock.elapsedRealtime() - realTime;
+            handler.postDelayed(this, update - realTime);
         }
     };
     private void setDigital(ImageView ivFirst, ImageView ivSecond, int time) {
