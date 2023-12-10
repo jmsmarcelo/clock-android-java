@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private Handler handler = new Handler();
@@ -30,11 +32,24 @@ public class MainActivity extends AppCompatActivity {
     private String clockDefault;
     int update = 999;
     boolean dotVisible = true;
+    List<Integer> digitalNumbers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        digitalNumbers = new ArrayList<>();
+        digitalNumbers.add(R.drawable.digital_zero);
+        digitalNumbers.add(R.drawable.digital_one);
+        digitalNumbers.add(R.drawable.digital_two);
+        digitalNumbers.add(R.drawable.digital_three);
+        digitalNumbers.add(R.drawable.digital_four);
+        digitalNumbers.add(R.drawable.digital_five);
+        digitalNumbers.add(R.drawable.digital_six);
+        digitalNumbers.add(R.drawable.digital_seven);
+        digitalNumbers.add(R.drawable.digital_eight);
+        digitalNumbers.add(R.drawable.digital_nine);
 
         prefs = getSharedPreferences(MY_PREFS_CONFIGS, MODE_PRIVATE);
         clockDefault = prefs.getString("clock", "analog");
@@ -136,59 +151,8 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     private void setDigital(ImageView ivFirst, ImageView ivSecond, int time) {
-        if(time < 10) {
-            setNumber(0, ivFirst);
-            setNumber(time, ivSecond);
-        } else if(time < 20) {
-            setNumber(1, ivFirst);
-            setNumber(time - 10,ivSecond);
-        } else if(time < 30) {
-            setNumber(2, ivFirst);
-            setNumber(time - 20, ivSecond);
-        } else if(time < 40) {
-            setNumber(3, ivFirst);
-            setNumber(time - 30, ivSecond);
-        } else if(time < 50) {
-            setNumber(4, ivFirst);
-            setNumber(time - 40, ivSecond);
-        } else {
-            setNumber(5, ivFirst);
-            setNumber(time - 50, ivSecond);
-        }
-    }
-    private void setNumber(int time, ImageView ivNumber) {
-        switch(time) {
-            case 0:
-                ivNumber.setImageResource(R.drawable.digital_zero);
-                break;
-            case 1:
-                ivNumber.setImageResource(R.drawable.digital_one);
-                break;
-            case 2:
-                ivNumber.setImageResource(R.drawable.digital_two);
-                break;
-            case 3:
-                ivNumber.setImageResource(R.drawable.digital_three);
-                break;
-            case 4:
-                ivNumber.setImageResource(R.drawable.digital_four);
-                break;
-            case 5:
-                ivNumber.setImageResource(R.drawable.digital_five);
-                break;
-            case 6:
-                ivNumber.setImageResource(R.drawable.digital_six);
-                break;
-            case 7:
-                ivNumber.setImageResource(R.drawable.digital_seven);
-                break;
-            case 8:
-                ivNumber.setImageResource(R.drawable.digital_eight);
-                break;
-            case 9:
-                ivNumber.setImageResource(R.drawable.digital_nine);
-                break;
-        }
+        ivFirst.setImageResource(digitalNumbers.get(time / 10));
+        ivSecond.setImageResource(digitalNumbers.get(time % 10));
     }
     @Override
     protected void onDestroy() {
