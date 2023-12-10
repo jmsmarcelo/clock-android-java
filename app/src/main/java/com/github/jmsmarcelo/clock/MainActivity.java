@@ -56,7 +56,10 @@ public class MainActivity extends AppCompatActivity {
         tvDigitalDot = findViewById(R.id.tvDigitalDot);
 
         btnSetClock = findViewById(R.id.btnSetClock);
-        btnSetClock.setText("Get " + clockDefault + " Clock");
+        if(clockDefault.equals("analog"))
+            btnSetClock.setText("Get Digital Clock");
+        else
+            btnSetClock.setText("Get Analog Clock");
 
         if(clockDefault.equals("analog")) {
             analogClock.setVisibility(View.VISIBLE);
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(clockDefault.equals("analog")) {
-                    btnSetClock.setText("Get Digital Clock");
+                    btnSetClock.setText("Get Analog Clock");
                     clockDefault = "digital";
 
                     analogClock.setVisibility(View.GONE);
@@ -81,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     prefsEditor.putString("clock", clockDefault);
                     prefsEditor.commit();
                 } else {
-                    btnSetClock.setText("Get Analog Clock");
+                    btnSetClock.setText("Get Digital Clock");
                     clockDefault = "analog";
 
                     analogClock.setVisibility(View.VISIBLE);
