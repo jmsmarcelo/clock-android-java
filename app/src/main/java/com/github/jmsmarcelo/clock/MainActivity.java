@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     private Runnable updateClickRunnable = new Runnable() {
         @Override
         public void run() {
-            long elapsedTime = SystemClock.elapsedRealtime();
+            long elapsedTime = System.currentTimeMillis();
             dateTime = LocalDateTime.now();
             hh = dateTime.getHour();
             mm = dateTime.getMinute();
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 tvDigitalDot.setVisibility((dotVisible ? View.INVISIBLE : View.VISIBLE));
             }
 
-            elapsedTime = SystemClock.elapsedRealtime() - elapsedTime;
+            elapsedTime = System.currentTimeMillis() - elapsedTime;
             handler.postDelayed(this, update - elapsedTime);
         }
     };
